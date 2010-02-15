@@ -14,6 +14,9 @@ each user needs to have #role_symbols defined.
 === Configuration ===
 Create a menu.yml file in the config dir like this:
 
+- name: "Home Sweet home"
+  path: "/"
+    
 - name: "Foos"
   path: "/foo"
   visibility:
