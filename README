@@ -11,8 +11,8 @@ http://asciicasts.com/episodes/188-declarative-authorization
 
 each user needs to have #role_symbols defined.
 
-
-1. create a menu.yml file in config like this:
+=== Configuration ===
+Create a menu.yml file in the config dir like this:
 
 - name: "Foos"
   path: "/foo"
@@ -35,6 +35,7 @@ each user needs to have #role_symbols defined.
       visibility:
         - "superadmin"
 
+=== View ===
 
 your layout or _menu.html.erb or what you call it might look like this:
 
@@ -63,5 +64,62 @@ your layout or _menu.html.erb or what you call it might look like this:
   <% end %>
 </div>
 
+=== CSS ===
 
+  #navlist
+  {
+  margin: 0;
+  }
+  
+  #navlist ul, #navlist li
+  {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  list-style-type: none;
+  }
+  
+  #navlist a:link, #navlist a:visited
+  {
+  float: left;
+  line-height: 18px;
+  font-weight: bold;
+  margin: 0 10px 0 0;
+  text-decoration: none;
+  color: #999;
+  background: white;
+  padding: 6px 10px 5px 10px;
+  font-size: 14px;
+  }
+  
+  #navlist a:link.active, #navlist a:visited.active, #navlist a:hover
+  {
+    color: #000;
+  }
+  
+  #navlist a:hover { color: #000; }
+  
+  /* =SUBMENU===================================================== */
+  
+  #submenu {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+  }
+  
+  #submenu li { display: inline; padding: 0; margin: 0; }
+ 
+  #submenu li:before { content: "| "; }
+  #submenu li:first-child:before { content: ""; }
+
+  #submenu a:link, #submenu a:visited {
+      text-decoration: none;
+      color: black;
+  }
+  
+  
+  #submenu a:link.active, #submenu a:visited.active, #submenu a:hover {
+      font-weight: bold;
+  }
+  
 Copyright (c) 2010 Joel Westerberg, released under the MIT license
