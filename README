@@ -38,6 +38,8 @@ each user needs to have #role_symbols defined.
 
 your layout or _menu.html.erb or what you call it might look like this:
 
+    <% menu = joels_menu(request.path, current_user) %>
+    
     <ul id="navlist">
       <% for n in menu.mainmenu %>
         <li class="<%= n.css_class %>">
