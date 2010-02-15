@@ -1,0 +1,65 @@
+JoelsMenu
+=========
+
+Menu plugin for rails.
+
+Example
+=======
+
+It kind of expects you to use declarative_authorization like in 
+http://asciicasts.com/episodes/188-declarative-authorization
+
+each user needs to have #role_symbols defined.
+
+
+1. create a menu.yml file in config like this:
+
+- name: "Foos"
+  path: "/foo"
+  visibility:
+    - "client"
+
+- name: "Bars"
+  path: "/bar"
+  visibility:
+    - "client"
+
+- name: "Admin"
+  path: "/superadmin"
+  visibility:
+    - "superadmin"
+  subpages:
+
+    - name: "Accounts"
+      path: "/accounts"
+      visibility:
+        - "superadmin"
+
+
+your layout or _menu.html.erb or what you call it might look like this:
+
+    <ul id="navlist">
+      <% for n in menu.mainmenu %>
+        <li class="<%= n.css_class %>">
+           <a href="<%= n.path %>" class="<%= n.css_class %>"><%= n.name %></a>
+        </li>
+      <% end %>
+    </ul>
+
+  <ul id="submenu">
+    <% for n in menu.submenu %>
+      <li class="<%= n.css_class %>">
+         <a href="<%= n.path %>" class="<%= n.css_class %>"><%= n.name %></a>
+      </li>
+    <% end %>
+  </ul>
+
+
+<div id="breadcrumbs">
+  <% for i in menu.crumbtrail %>
+  <%= link_to i.name, i.path %> &raquo;
+  <% end %>
+</div>
+
+
+Copyright (c) 2010 Joel Westerberg, released under the MIT license
