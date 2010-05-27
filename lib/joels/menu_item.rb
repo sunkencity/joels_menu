@@ -10,11 +10,15 @@ class Joels::MenuItem
   end
 
   def visible?
-    visible_to_all? || visibility.any? { |v| (menu.current_user_privileges || []).include?(v) }
+    visible_to_all? || visible_to_current_user?
   end
   
   def visible_to_all?
     visibility.empty?
+  end
+  
+  def visible_to_current_user?
+    visibility.any? { |v| (menu.current_user_privileges || []).include?(v) }
   end
 
   def on_current_path?
