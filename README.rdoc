@@ -11,10 +11,11 @@ Menu plugin for rails.
 
 == Example usage
 
-You need to provide JoelsMenu with an array of privilege symbols [:admin, :user].
-http://asciicasts.com/episodes/188-declarative-authorization
+You need to provide JoelsMenu with an array of privilege symbols like this
 
-Call the helper a hash containing either the key :user (sending in a user or nil), or :role_symbols sending in the privilege hash directly.
+  [:admin, :user]
+
+Call the helper a hash containing either the key :user (sending in a user or nil), or :role_symbols sending in the privilege hash directly. If you are setting up authlogic and declarative_authorization like this http://asciicasts.com/episodes/188-declarative-authorization you can just send in the current_user directly.
 
 === View
 
