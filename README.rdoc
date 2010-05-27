@@ -1,4 +1,4 @@
- = JoelsMenu
+= JoelsMenu
 
 Menu plugin for rails.
 
@@ -37,13 +37,12 @@ your layout or _menu.html.erb or what you call it might look like this:
       </li>
     <% end %>
   </ul>
-
-
-<div id="breadcrumbs">
-  <% for i in menu.crumbtrail %>
-  <%= link_to i.name, i.path %> &raquo;
-  <% end %>
-</div>
+  
+  <div id="breadcrumbs">
+    <% for i in menu.crumbtrail %>
+    <%= link_to i.name, i.path %> &raquo;
+    <% end %>
+  </div>
 
 === Configuration
 
