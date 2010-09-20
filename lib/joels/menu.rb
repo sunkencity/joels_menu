@@ -21,7 +21,7 @@ class Joels::Menu
   end
 
   def source_data
-    RAILS_ENV == 'production' ? @@source_data ||= load_data : load_data
+    Rails.env == 'production' ? @@source_data ||= load_data : load_data
   end
 
   def crumbtrail
@@ -37,7 +37,7 @@ class Joels::Menu
   end
 
   def load_data
-    YAML.load_file("#{RAILS_ROOT}/config/menu.yml")["menu"]
+    YAML.load_file("#{Rails.root}/config/menu.yml")["menu"]
   end
 
 end
