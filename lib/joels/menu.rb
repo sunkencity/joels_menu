@@ -36,8 +36,8 @@ class Joels::Menu
     @crumbs ||= []
   end
 
-  def load_data
-    YAML.load_file("#{Rails.root}/config/menu.yml")["menu"]
+  def load_data path = "#{Rails.root}/config/menu.yml", key = "menu"
+    YAML.load_file(path)[key]
   end
 
 end
