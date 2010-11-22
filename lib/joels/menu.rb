@@ -1,31 +1,22 @@
 class Joels::Menu
 
-  attr_accessor :current_user_privileges, :menu_tree, :current_path
+  attr_accessor :mainmenu, :current_path
 
-  def initialize(path = "/")
-    @current_path = path
-    @menu_tree = source_data.map { |i| Joels::MenuItem.new(i, self) }
-    @current_user_privileges ||= []
-  end
-
-  def mainmenu
-    menu_tree.select &:visible?
+  def initialize(path, &block)
+    @current_path, @mainmenu = path, []
+    yield(self) if block_given?
   end
 
   def submenu
-    menu_is_empty? ? [] : crumbtrail.first.visible_subpages
+    menu_is_empty? ? [] : crumbtrail.first.subpages
   end
 
   def menu_is_empty?
     crumbtrail.empty?
   end
 
-  def source_data
-    Rails.env == 'production' ? @@source_data ||= load_data : load_data
-  end
-
   def crumbtrail
-    crumbs.reverse.select &:visible?
+    crumbs.reverse
   end
 
   def add_to_crumbtrail item
@@ -36,8 +27,8 @@ class Joels::Menu
     @crumbs ||= []
   end
 
-  def load_data path = "#{Rails.root}/config/menu.yml", key = "menu"
-    YAML.load_file(path)[key]
+  def menu_item name, path, &block
+    mainmenu << Joels::MenuItem.new(self, name, path, nil, &block)
   end
 
 end
