@@ -1,24 +1,12 @@
 class Joels::MenuItem
 
-  attr_accessor :name, :path, :visibility, :parent, :menu, :subpages, :active
+  attr_accessor :name, :path, :parent, :menu, :subpages, :active
 
-  def initialize hash, a_menu, a_parent = nil
-    @name, @path, @menu, @parent, @active = hash["name"], hash["path"], a_menu, a_parent, false
-    @visibility = (hash["visibility"] || []).map { |x| x.underscore.to_sym }
-    @subpages   = (hash["subpages"] || []).map { |sp| Joels::MenuItem.new(sp, menu, self) }
+  def initialize menu, name, path, parent, &block
+    @menu, @name, @path, @parent, @active = menu, name, path, parent, false
+    @subpages   = []
+    yield(self) if block_given?
     activate! if on_current_path?
-  end
-
-  def visible?
-    visible_to_all? || visible_to_current_user?
-  end
-  
-  def visible_to_all?
-    visibility.empty?
-  end
-  
-  def visible_to_current_user?
-    visibility.any? { |v| (menu.current_user_privileges || []).include?(v) }
   end
 
   def on_current_path?
@@ -35,8 +23,8 @@ class Joels::MenuItem
     parent.activate! if parent
   end
   
-  def visible_subpages
-    subpages.select &:visible?
+  def menu_item name, path
+    subpages << Joels::MenuItem.new(menu, name, path, self)
   end
-  
+
 end
