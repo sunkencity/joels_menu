@@ -5,23 +5,33 @@ Menu plugin for rails.
 * Highlights the current items
 * Support for submenu
 * Support for crumbtrail
-* Shows and hides menu items depending on privileges
-* Easy configuration in YAML
-* Works well with authlogic & declarative_authorization
+
+== Changes 
+
+To simplify and add the possibility of more advanced privilege handling, I've moved all the privilege handling out of the library and made it just take a block instead, the configuration is no longer read through YAML and there's no automatic handling of user visibility & privileges. I was thinking of adding the possibility to add a proc through YAML but then it seemed more sane to just have the configuration in plain ruby instead. I've added a legacy-yaml branch if anyone wants to keep on using that.
 
 == Example usage
 
-You need to provide JoelsMenu with an array of privilege symbols like this
+Shows how you might configure if you are using http://asciicasts.com/episodes/188-declarative-authorization
 
-  [:admin, :user]
-
-Call the helper a hash containing either the key :user (sending in a user or nil), or :role_symbols sending in the privilege hash directly. If you are setting up authlogic and declarative_authorization like this http://asciicasts.com/episodes/188-declarative-authorization you can just send in the current_user directly.
-
-=== View
-
-your layout or _menu.html.erb or what you call it might look like this:
-
-    <% menu = joels_menu(request.path, :user => current_user) %>
+    <% 
+      menu = joels_menu(request.path) do |m|
+          m.menu_item("Home Sweet home", "/")
+          if current_user
+            if current_user.role_symbols.include?(:client)
+              m.menu_item("Foos", "/foos")
+              m.menu_item("Bars", "/bars")
+              m.menu_item("FooBars", "/foobars") if current_user.can_has?(:foo_bars, cookies[:foo_bars])
+            end
+           
+            if current_user.role_symbols.include?(:admin)
+              m.menu_item("Admin", "/admin") do |admin|
+                admin.menu_item("Accounts", "/accounts")
+              end
+            end
+          end
+      end
+    %>
     
     <ul id="navlist">
       <% for n in menu.mainmenu %>
@@ -45,33 +55,6 @@ your layout or _menu.html.erb or what you call it might look like this:
     <% end %>
   </div>
 
-=== Configuration
-
-Create a menu.yml file in the config dir like this:
-
-  - name: "Home Sweet home"
-    path: "/"
-      
-  - name: "Foos"
-    path: "/foo"
-    visibility:
-      - "client"
-  
-  - name: "Bars"
-    path: "/bar"
-    visibility:
-      - "client"
-  
-  - name: "Admin"
-    path: "/superadmin"
-    visibility:
-      - "superadmin"
-    subpages:
-  
-      - name: "Accounts"
-        path: "/accounts"
-        visibility:
-          - "superadmin"
         
 === CSS
 
