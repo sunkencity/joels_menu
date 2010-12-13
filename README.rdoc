@@ -2,7 +2,7 @@
 
 Menu plugin for rails.
 
-link:https://github.com/sunkencity/joels_menu/raw/master/example.png
+link:joels_menu/raw/master/example.png
 
 * Highlights the current items
 * Support for submenu
