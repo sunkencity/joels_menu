@@ -6,7 +6,7 @@ Menu plugin for rails.
 * Support for submenu
 * Support for crumbtrail
 
-== Screenshot ( - it can look like this (all dependent on your css skills!))
+== Example screenshot
 
 link:./joels_menu/raw/master/example.png
 
